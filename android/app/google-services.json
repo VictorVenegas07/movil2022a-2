@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "522095883308",
+    "project_id": "sinlimitesmovil-6465b",
+    "storage_bucket": "sinlimitesmovil-6465b.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:522095883308:android:b274aebd2ca6ee1fe7cd89",
+        "android_client_info": {
+          "package_name": "com.movilsinlimites.movil2022a"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "522095883308-0ofbled0qdlukhnr3o1p9vbfmh0gpo4t.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyB5pDLZWrVDXDOJ1ZFVI7BYFeYLJCxI2MM"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "522095883308-0ofbled0qdlukhnr3o1p9vbfmh0gpo4t.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
