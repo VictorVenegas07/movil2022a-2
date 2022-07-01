@@ -1,3 +1,4 @@
+import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:http/http.dart' as http;
@@ -6,6 +7,7 @@ import 'package:movil2022a/components/navegador/navegadorBar.dart';
 import 'package:movil2022a/controllers/usuarioController.dart';
 import 'package:movil2022a/models/userlog.dart';
 import 'package:movil2022a/services/adicionarUsuario.dart';
+import 'package:movil2022a/services/auth.dart';
 
 class LoginPage extends StatefulWidget {
   static String id = "loginPage";
@@ -15,11 +17,13 @@ class LoginPage extends StatefulWidget {
 }
 
 class _LoginPageState extends State<LoginPage> {
+  Controllerauth controluser = Get.find();
   TextEditingController controllerUsername = TextEditingController();
   TextEditingController controllerPassword = TextEditingController();
   final controller = Get.put(UsuarioController());
   late Future<List<UsuarioLog>> createpost;
   late List<UsuarioLog> usuario;
+
   buscar() async {
     createpost = validarClientePost(
         http.Client(), controllerUsername.text, controllerPassword.text);
@@ -31,6 +35,45 @@ class _LoginPageState extends State<LoginPage> {
         : controllerPassword.text.length < 1
             ? false
             : true;
+  }
+
+  inicio(theEmail, thePassword) async {
+    try {
+      await controluser.ingresarEmail(theEmail, thePassword);
+      if (controluser.emailf != 'Sin Registro') {
+            usuario = [];
+            if (validarCampos()) {
+              await buscar();
+              createpost.then((value) {
+                usuario = value;
+                setUsuario(value[0]);
+                if (value[0].tipo == 'Cliente') {
+                  Get.off(NavigatorBar());
+                } else if (value[0].tipo == 'Admin') {
+                  Get.off(Home());
+                }
+              });
+            } else {
+              mostrarMensaje(context,
+                  "Usuario y password no deben ser vacio o menor a 5 caracteres");
+            }
+      } else {
+        Get.snackbar(
+          "Login",
+          'Ingrese un Email Valido',
+          icon: Icon(Icons.person, color: Colors.red),
+          snackPosition: SnackPosition.BOTTOM,
+        );
+      }
+    } catch (err) {
+      print(err.toString());
+      Get.snackbar(
+        "Login",
+        err.toString(),
+        icon: Icon(Icons.person, color: Colors.red),
+        snackPosition: SnackPosition.BOTTOM,
+      );
+    }
   }
 
   @override
@@ -125,23 +168,8 @@ class _LoginPageState extends State<LoginPage> {
           elevation: 10.0,
           color: Colors.amber,
           onPressed: () async {
-            usuario = [];
-            if (validarCampos()) {
-              await buscar();
-              createpost.then((value) {
-                usuario = value;
-                setUsuario(value[0]);
-                if (value[0].tipo == 'Cliente') {
-                  Get.off(NavigatorBar());
-                } else if (value[0].tipo == 'Admin') {
-                  Get.off(Home());
-                }
-              });
-            } else {
-              mostrarMensaje(context,
-                  "Usuario y password no deben ser vacio o menor a 5 caracteres");
-            }
-          });
+            inicio('', '');
+            });
     }));
   }
 

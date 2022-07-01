@@ -6,14 +6,12 @@ class Item {
 
   String expandedValue;
   String headerValue;
-  List<String> videos = [
-    'https://www.youtube.com/watch?v=2aJZzRMziJc'
-  ];
+  List<String> videos = ['https://www.youtube.com/watch?v=2aJZzRMziJc'];
   bool isExpanded;
 }
 
-List<Item> generateItems(int numberOfItems) {
-  return List<Item>.generate(numberOfItems, (int index) {
+List<Item> generateItems() {
+  return List<Item>.generate(8, (int index) {
     return Item(
       headerValue: 'Rutina',
       expandedValue: 'xxRutina $index',
